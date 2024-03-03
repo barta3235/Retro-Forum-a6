@@ -1,10 +1,18 @@
 let idbox=[];
 
-const discuss = async ()=>{
-    const res = await fetch('https://openapi.programming-hero.com/api/retro-forum/posts?category=coding');
-    const data= await res.json();
-    holder= await data['posts'];
-    showData(holder);
+const discuss = async (link)=>{
+    if(!link){
+        const res = await fetch('https://openapi.programming-hero.com/api/retro-forum/posts');
+        const data= await res.json();
+        holder= await data['posts'];
+        showData(holder);
+    }else{
+        const res = await fetch(`https://openapi.programming-hero.com/api/retro-forum/posts?category=${link}`);
+        const data= await res.json();
+        holder= await data['posts'];
+        showData(holder);
+    }
+    
 }
 
 
@@ -78,19 +86,26 @@ const showData=(datas)=>{
                     </div>
         `
         letsDiscussContainer.appendChild(div);
-        idbox.push(data.id);
-        
     })
 }
 
 
+const handleSearch=()=>{
+    const inputField=document.getElementById('search-field');
+    temp=inputField.value;
+    temp1=temp.charAt(0).toUpperCase();
+    temp2=temp.slice(1);
+    final_temp=temp1+temp2
+    console.log(final_temp);
+    discuss(final_temp);
+}
+
+
+
+
 
 const addToRead= async ()=>{
-    const res = await fetch('https://openapi.programming-hero.com/api/retro-forum/posts?category=coding');
-    const data= await res.json();
-    holder= await data['posts'];
-    console.log(holder);
-    console.log(idbox);
+    console.log('connection');
 }
 
 
