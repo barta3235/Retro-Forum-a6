@@ -1,11 +1,12 @@
-let idbox=[];
-
 const discuss = async (link)=>{
     if(!link){
         const res = await fetch('https://openapi.programming-hero.com/api/retro-forum/posts');
         const data= await res.json();
         holder= await data['posts'];
         showData(holder);
+    }else if(link!== 'Comedy' && link!== 'Music' && link!== 'Coding'){
+          alert('Search by the correct category name');
+          location.reload();
     }else{
         const res = await fetch(`https://openapi.programming-hero.com/api/retro-forum/posts?category=${link}`);
         const data= await res.json();
@@ -20,6 +21,7 @@ const showData=(datas)=>{
     const letsDiscussContainer= document.getElementById('lets-discuss-container');
 
     letsDiscussContainer.textContent='';
+
     
     datas.forEach((data)=>{
         const div= document.createElement('div');
@@ -87,10 +89,21 @@ const showData=(datas)=>{
         `
         letsDiscussContainer.appendChild(div);
     })
+
+    toggleSpinner(false);
 }
 
+const toggleSpinner=(isLoading)=>{
+    const spinner= document.getElementById('spinner');
+    if(isLoading){
+        spinner.classList.remove('hidden');
+    }else{
+        spinner.classList.add('hidden');
+    }
+}
 
 const handleSearch=()=>{
+    setTimeout(toggleSpinner(true),10000);
     const inputField=document.getElementById('search-field');
     temp=inputField.value;
     temp1=temp.charAt(0).toUpperCase();
