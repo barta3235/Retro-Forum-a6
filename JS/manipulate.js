@@ -93,6 +93,53 @@ const showData=(datas)=>{
     toggleSpinner(false);
 }
 
+const showLatest=(datas)=>{
+
+    const latestContainer= document.getElementById('latest-news-container');
+
+    latestContainer.textContent='';
+
+    datas.forEach((data)=>{
+        const div= document.createElement('div');
+        div.classList="card border border-[#0C0D2D1A] rounded-3xl p-6";
+
+        div.innerHTML= `
+        <img class="rounded-[20px] mb-6" src="${data.cover_image}" alt="loading" />
+                      
+        <div class="flex gap-2 text-[#12132D99] text-[16px] font-normal mb-[15px]">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+            </svg>
+            <h1>
+            <span>${data.author.posted_date ? data.author.posted_date: "No published date" }</span>
+            </h1>
+        </div>
+
+        <h1 class="text-[18px] font-extrabold mb-3">${data.title}</h1>
+        
+        <p class="text-[#12132D99] font-normal mb-4">
+          ${data.description}
+        </p>
+
+        <div class="flex flex-col lg:flex-row gap-5 items-center">
+          <img class="w-11 h-11 rounded-full" src="${data.profile_image}" alt="loading">
+
+          <div>
+              <h1 class="font-extrabold text-black mb-[5px]">${data.author.name ? data.author.name: "Unknown"}</h1>
+              <p>${data.author.designation ? data.author.designation: 'Unknown' }</p>
+          </div>
+
+        </div>
+        `
+        latestContainer.appendChild(div);
+
+    });
+
+    toggleSpinner2(false);
+}
+
+
+//spinners
 const toggleSpinner=(isLoading)=>{
     const spinner= document.getElementById('spinner');
     if(isLoading){
@@ -101,6 +148,18 @@ const toggleSpinner=(isLoading)=>{
         spinner.classList.add('hidden');
     }
 }
+
+const toggleSpinner2=(isLoading)=>{
+    const spinner= document.getElementById('spinner2');
+    if(isLoading){
+        spinner.classList.remove('hidden');
+    }else{
+        spinner.classList.add('hidden');
+    }
+}
+
+
+
 
 const handleSearch=()=>{
     setTimeout(toggleSpinner(true),10000);
@@ -113,10 +172,19 @@ const handleSearch=()=>{
     discuss(final_temp);
 }
 
+//latest 
+const latest= async ()=>{
+    toggleSpinner2(true);
+    const res = await fetch('https://openapi.programming-hero.com/api/retro-forum/latest-posts');
+    const data= await res.json();
+    holder= data;
+    showLatest(holder);
+}
 
 
 
 
+// mark as read section work
 const addToRead= async ()=>{
     console.log('connection');
 }
@@ -124,6 +192,7 @@ const addToRead= async ()=>{
 
 
 discuss();
+latest();
 
 
 
