@@ -1,0 +1,14 @@
+B9A6-Retro-Forum
+Private Repo Link
+Click here for the private repo httpsclassroom.github.comaM685dkpe
+
+API
+LatestPosts - httpsopenapi.programming-hero.comapiretro-forumlatest-posts
+
+AllPosts - httpsopenapi.programming-hero.comapiretro-forumposts
+
+PostSearchByQuery
+PostByQuery - httpsopenapi.programming-hero.comapiretro-forumpostscategory=categoryName
+
+Example
+PostByQuery - httpsopenapi.programming-hero.comapiretro-forumpostscategory=coding
