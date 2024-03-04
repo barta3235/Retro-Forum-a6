@@ -25,9 +25,9 @@ const showData=(datas)=>{
     
     datas.forEach((data)=>{
         const div= document.createElement('div');
-        
+    
 
-        div.classList= 'flex flex-col lg:flex-row gap-[30px] border border-[#7D7DFC] rounded-2xl p-[15px] lg:p-[40px] bg-[#797DFC1A] mb-0 lg:mb-6';
+        div.classList= 'flex flex-col lg:flex-row gap-[30px] border border-[#7D7DFC] rounded-2xl p-[15px] lg:p-[40px] bg-[#797DFC1A] mb-4 lg:mb-6';
         div.innerHTML= `
               
                     <div class="indicator">
@@ -42,7 +42,7 @@ const showData=(datas)=>{
                           <h1>Author: <span>${data.author.name}</span></h1>
                        </div>
     
-                       <h1 class="text-[20px] font-bold text-[#12132D] mb-4">${data.title}</h1>
+                       <h1 id='p-title' class="text-[20px] font-bold text-[#12132D] mb-4">${data.title}</h1>
     
                        <h1 class="text-[#12132D99] text-[16px] font-normal mb-4">${data.description}</h1>
     
@@ -63,7 +63,7 @@ const showData=(datas)=>{
                                   <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                               </svg>
                                  
-                              <p>${data.view_count}</p>  
+                              <p id='p-count'>${data.view_count}</p>  
                             </div>
       
                             <div class="text-[#12132D99] font-normal gap-3 flex">
@@ -74,9 +74,9 @@ const showData=(datas)=>{
                               <p><span>${data.posted_time}</span> min</p>  
                             </div>
                          </div>
-    
+                                                        
                          <div>
-                            <button onclick='addToRead()' class="bg-[#10B981] text-white rounded-full p-1">
+                            <button onclick='addToRead(${data.id})' class="bg-[#10B981] text-white rounded-full p-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 9v.906a2.25 2.25 0 0 1-1.183 1.981l-6.478 3.488M2.25 9v.906a2.25 2.25 0 0 0 1.183 1.981l6.478 3.488m8.839 2.51-4.66-2.51m0 0-1.023-.55a2.25 2.25 0 0 0-2.134 0l-1.022.55m0 0-4.661 2.51m16.5 1.615a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V8.844a2.25 2.25 0 0 1 1.183-1.981l7.5-4.039a2.25 2.25 0 0 1 2.134 0l7.5 4.039a2.25 2.25 0 0 1 1.183 1.98V19.5Z" />
                               </svg>
@@ -89,7 +89,7 @@ const showData=(datas)=>{
         `
         letsDiscussContainer.appendChild(div);
     })
-
+    // "${data.title}","${data.view_count}"
     toggleSpinner(false);
 }
 
@@ -161,8 +161,9 @@ const toggleSpinner2=(isLoading)=>{
 
 
 
+
 const handleSearch=()=>{
-    setTimeout(toggleSpinner(true),10000);
+    setTimeout(toggleSpinner(true),5000);
     const inputField=document.getElementById('search-field');
     temp=inputField.value;
     temp1=temp.charAt(0).toUpperCase();
@@ -183,16 +184,63 @@ const latest= async ()=>{
 
 
 
-
 // mark as read section work
-const addToRead= async ()=>{
-    console.log('connection');
+const addToRead= async (givenId)=>{
+    setTimeout(toggleSpinner(true),5000);
+    let title='';
+    let view='';
+    
+    const container= document.getElementById('readList');
+
+    const res= await fetch('https://openapi.programming-hero.com/api/retro-forum/posts');
+    const data= await res.json();
+    holder=data['posts'];
+
+    holder.forEach((data)=>{
+        if(givenId === data.id){
+            //  console.log(data.id);
+             title= data.title;
+             view=data.view_count;
+
+        }
+    })
+
+
+        
+
+    const div = document.createElement('div');
+    div.classList='flex flex-col lg:flex-row gap-3 bg-white p-4 rounded-2xl mb-4';
+    div.innerHTML=`
+
+    <h1 class="text-[16px] font-extrabold text-[#12132D]">${title}</h1>
+    <div class="flex gap-2">
+     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+         <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+         <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+     </svg>
+        
+     <p>${view}</p>
+    </div>
+    
+    `
+    container.appendChild(div);
+   
+
+    const tick = document.getElementById('msrc');
+    const textValue=tick.innerText
+    const numValue= parseInt(textValue);
+    const provideValue= numValue+1;
+    tick.innerText=provideValue;
+
+
+    toggleSpinner(false);
 }
 
 
 
 discuss();
 latest();
+
 
 
 

@@ -209,6 +209,8 @@
           
           <!-- right hand side -->
           <div class="p-6 bg-[#12132D0D] rounded-3xl">
+
+
              <div class="flex justify-between mb-5">
                 <h1 class="text-[20px] font-bold">Title</h1>
                 <div class="flex gap-2">
@@ -228,19 +230,21 @@
                         </g>
                     </svg>
 
-                    <h1>Mark as read (<span>1</span>)</h1>    
+                    <h1>Mark as read (<span id="msrc">0</span>)</h1>    
                 </div>
              </div>
+            
+             <!-- spinner -->
+             <div id="spinner" class="flex justify-center mb-[50px] hidden">
+                <span class="loading loading-spinner loading-lg"></span>
+            </div>
 
 
-
-
-
-
+            <!-- mark as read are added here -->
              <div id="readList">
 
                 <!-- read card 1 -->
-                <div class="flex flex-col lg:flex-row gap-3 bg-white p-4 rounded-2xl mb-4">
+                <!-- <div class="flex flex-col lg:flex-row gap-3 bg-white p-4 rounded-2xl mb-4 hidden">
                    <h1 class="text-[16px] font-extrabold text-[#12132D]">10 Kids Unaware of Their Halloween Costume</h1>
                    <div class="flex gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -250,7 +254,7 @@
                        
                     <p>1568</p>
                    </div>
-                </div>
+                </div> -->
 
                 
 
